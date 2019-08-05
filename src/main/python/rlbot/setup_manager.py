@@ -88,6 +88,7 @@ class SetupManager:
     agent_metadata_queue = None
     extension = None
     bot_processes: List[mp.Process] = []
+    configs = []
 
 
     def __init__(self):
@@ -101,7 +102,12 @@ class SetupManager:
         self.match_config: MatchConfig = None
         self.rlbot_gateway_process = None
         self.matchcomms_server: MatchcommsServerThread = None
+        self.botless_agents = []
 
+    def set_botless_agents(self, botless_agents):
+        agent.retire() for agent in self.botless_agents
+        self.botless_agents = botless_agents
+    
     def connect_to_game(self):
         """
         Ensures the game is running and connects to it by initializing self.game_interface.
@@ -172,6 +178,8 @@ class SetupManager:
         self.names = [bot.name for bot in match_config.player_configs]
         self.teams = [bot.team for bot in match_config.player_configs]
 
+        self.configs = [bot.config_path for bot in match_config.player_configs]
+        
         bundles = [bot_config_overrides[index] if index in bot_config_overrides else
                    get_bot_config_bundle(bot.config_path) if bot.config_path else None
                    for index, bot in enumerate(match_config.player_configs)]
@@ -269,6 +277,10 @@ class SetupManager:
     def start_match(self):
         self.logger.info("Python attempting to start match.")
         self.game_interface.start_match()
+        
+        # Load agents that aren't controlling a bot (We wait until here so that the game interface is loaded)
+        agent.connect(self.game_interface, self.configs) for agent in self.botless_agents
+        
         time.sleep(0.5)  # Wait a moment. If we look too soon, we might see a valid packet from previous game.
         self.game_interface.wait_until_valid_packet()
         self.logger.info("Match has started")
@@ -327,6 +339,9 @@ class SetupManager:
         self.quit_event.set()
         end_time = datetime.now() + timedelta(seconds=time_limit)
 
+        # Shut down agents that aren't controlling a bot
+        agent.retire() for agent in self.botless_agents
+        
         # Don't kill RLBot.exe. It needs to keep running because if we're in a GUI
         # that will persist after this shut down, the interface dll in charge of starting
         # matches is already locked in to its shared memory files, and if we start a new
