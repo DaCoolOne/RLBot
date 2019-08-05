@@ -1,12 +1,14 @@
-from rlbot.agents.base_agent import BaseAgent
 from rlbot.utils.structures.game_data_struct import GameTickPacket
+from rlbot.utils.structures.game_interface import GameInterface
 
-class BotlessAgent(BaseAgent):
-    def __init__(self):
+class BotlessAgent():
+    index = 0
+    
+    # Called when the agent connects to a game. Allows the agent access to the game interface that RLBot uses. Also used to initialize the agent.
+    def connect(self, game_interface: GameInterface, config_paths = []):
         pass
     
-    # Remove the type hint from get_output (since this agent doesn't control a bot)
-    @override
-    def get_output(self, game_tick_packet: GameTickPacket):
+    # Used to signal end of match
+    def retire(self):
         pass
     
