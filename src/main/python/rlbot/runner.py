@@ -1,6 +1,12 @@
 from rlbot.setup_manager import SetupManager
+from rlbot.agents.botless_agent import BotlessAgent
 from rlbot.utils.python_version_check import check_python_version
 
+botless_agents = []
+
+def add_botless_agent(agent: BotlessAgent):
+    agent.index = len(botless_agents)
+    botless_agents.append(agent)
 
 def main():
 
