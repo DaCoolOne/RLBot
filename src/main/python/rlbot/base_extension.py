@@ -22,15 +22,18 @@ class BaseExtension:
         Called when a goal has been scored.
         :param team: Which team scored the goal.
         """
+        pass
 
     def onGoalSaved(self, team):
         """
         Called when a goal has been saved/epic saved
         :param team: The team that saved the ball
         """
+        pass
 
     def onMatchStart(self, rlbot_status):
         """
         Called when a match has started
         :return:
         """
+        pass
