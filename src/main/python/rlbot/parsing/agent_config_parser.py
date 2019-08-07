@@ -51,7 +51,7 @@ def add_participant_header(config_object):
                                  description="""A path to a loadout config file which will override the path in the agent config
                                              Use None to extract the path from the agent config""")
     
-    botless_agent_header = config_object.add_header_name(BOTLESS_AGENT_CONFIGURATION_HEADER, is_indexed = True)
+    botless_agent_header = config_object.add_header_name(BOTLESS_AGENT_CONFIGURATION_HEADER, is_indexed=True)
     botless_agent_header.add_value(BOTLESS_AGENT_PATH_KEY, str, default=None,
                                  description="""A path to a python file which contains a class derived from BotlessAgent
                                              Use None to disable this slot.""")
