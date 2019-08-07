@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import ParseResult as URL
+import importlib.util as impu
 
 import psutil
 from rlbot import gateway_util
@@ -191,6 +192,18 @@ class SetupManager:
                 looks_config = bundles[index].get_looks_config()
                 bot.loadout_config = load_bot_appearance(looks_config, bot.team)
 
+        for path in match_config.botless_agents:
+            try:
+                spec = impu.spec_from_file_location(path)
+                m = impu.module_from_spec(spec)
+                spec.loader.exec_module(m)
+                if m.hasattr("agent"):
+                    self.botless_agents.append(m.agent())
+                else:
+                    self.logg.warning(f"No agent class found in {path}")
+            except:
+                self.logger.warning(f"Failed to import botless agent at {path}.")
+        
         if match_config.extension_config is not None and match_config.extension_config.python_file_path is not None:
             self.load_extension(match_config.extension_config.python_file_path)
 
