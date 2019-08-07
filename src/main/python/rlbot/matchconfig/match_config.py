@@ -140,6 +140,7 @@ class MatchConfig:
         self.mutators: MutatorConfig = None
         self.extension_config: ExtensionConfig = None
         self.existing_match_behavior: str = None
+        self.botless_agents = []
 
     @property
     def num_players(self):
