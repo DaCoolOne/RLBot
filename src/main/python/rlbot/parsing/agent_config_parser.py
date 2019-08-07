@@ -2,6 +2,8 @@ from rlbot.matchconfig.loadout_config import LoadoutConfig, LoadoutPaintConfig
 from rlbot.parsing.custom_config import ConfigObject, ConfigHeader
 from rlbot.utils.logging_utils import get_logger
 
+BOTLESS_AGENT_CONFIGURATION_HEADER = 'Botless Agents'
+BOTLESS_AGENT_PATH_KEY = 'botless_agent'
 PARTICIPANT_CONFIGURATION_HEADER = 'Participant Configuration'
 PARTICIPANT_CONFIG_KEY = 'participant_config'
 PARTICIPANT_BOT_SKILL_KEY = 'participant_bot_skill'
