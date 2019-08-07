@@ -9,7 +9,7 @@ from rlbot.parsing.custom_config import ConfigObject
 from rlbot.parsing.incrementing_integer import IncrementingInteger
 from rlbot.parsing.match_settings_config_parser import get_num_players, parse_match_settings
 from rlbot.parsing.rlbot_config_parser import create_bot_config_layout
-from rlbot.parsing.rlbot_config_parser import RLBOT_CONFIGURATION_HEADER, EXTENSION_PATH_KEY
+from rlbot.parsing.rlbot_config_parser import RLBOT_CONFIGURATION_HEADER, EXTENSION_PATH_KEY, BOTLESS_AGENT_CONFIGURATION_HEADER, BOTLESS_AGENT_PATH_KEY
 
 # ====== rlbot.cfg -> MatchConfig ======
 from rlbot.utils.structures.start_match_structures import MAX_PLAYERS
@@ -56,6 +56,10 @@ def parse_match_config(config_parser: ConfigObject, config_location, config_bund
 
         match_config.player_configs.append(player_config)
 
+    for path in config_parser.get(BOTLESS_AGENT_CONFIGURATION_HEADER, BOTLESS_AGENT_PATH_KEY):
+        if path != 'None':
+            match_config.botless_agents.append(path)
+    
     extension_path = config_parser.get(RLBOT_CONFIGURATION_HEADER, EXTENSION_PATH_KEY)
     if extension_path and extension_path != 'None':  # The string 'None' ends up in people's config a lot.
         match_config.extension_config = ExtensionConfig()
