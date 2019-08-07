@@ -104,10 +104,6 @@ class SetupManager:
         self.matchcomms_server: MatchcommsServerThread = None
         self.botless_agents = []
 
-    def set_botless_agents(self, botless_agents):
-        agent.retire() for agent in self.botless_agents
-        self.botless_agents = botless_agents
-    
     def connect_to_game(self):
         """
         Ensures the game is running and connects to it by initializing self.game_interface.
