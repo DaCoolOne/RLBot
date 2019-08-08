@@ -1,6 +1,7 @@
 import msvcrt
 import multiprocessing as mp
 import os
+import sys
 import psutil
 import queue
 import subprocess
@@ -192,8 +193,11 @@ class SetupManager:
                 looks_config = bundles[index].get_looks_config()
                 bot.loadout_config = load_bot_appearance(looks_config, bot.team)
 
+        sys_path_length = len(sys.path)
         for path in match_config.botless_agents:
             try:
+                # Append the system path
+                sys.path.append(os.path.dirname(path))
                 spec = importlib.util.spec_from_file_location("botless_agent", path)
                 if spec:
                     m = importlib.util.module_from_spec(spec)
@@ -206,6 +210,10 @@ class SetupManager:
                    self.logger.warning(f"No module found at {path}") 
             except Exception as e:
                 self.logger.warning(f"Failed to import botless agent at {path}. {type(e)} {e}")
+            finally:
+                # Reset the system path
+                while len(sys.path) > sys_path_length:
+                    sys.path.pop()
                 
         
         if match_config.extension_config is not None and match_config.extension_config.python_file_path is not None:
