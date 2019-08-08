@@ -205,7 +205,7 @@ class SetupManager:
                 else:
                    self.logger.warning(f"No module found at {path}") 
             except Exception as e:
-                self.logger.warning(f"Failed to import botless agent at {path}. {e}")
+                self.logger.warning(f"Failed to import botless agent at {path}. {type(e)} {e}")
                 
         
         if match_config.extension_config is not None and match_config.extension_config.python_file_path is not None:
