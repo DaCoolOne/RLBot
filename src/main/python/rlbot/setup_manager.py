@@ -288,7 +288,8 @@ class SetupManager:
         self.game_interface.start_match()
         
         # Load agents that aren't controlling a bot (We wait until here so that the game interface is loaded)
-        agent.connect(self.game_interface, self.configs) for agent in self.botless_agents
+        for agent in self.botless_agents:
+            agent.connect(self.game_interface, self.configs)
         
         time.sleep(0.5)  # Wait a moment. If we look too soon, we might see a valid packet from previous game.
         self.game_interface.wait_until_valid_packet()
@@ -349,7 +350,8 @@ class SetupManager:
         end_time = datetime.now() + timedelta(seconds=time_limit)
 
         # Shut down agents that aren't controlling a bot
-        agent.retire() for agent in self.botless_agents
+        for agent in self.botless_agents:
+            agent.retire()
         
         # Don't kill RLBot.exe. It needs to keep running because if we're in a GUI
         # that will persist after this shut down, the interface dll in charge of starting
