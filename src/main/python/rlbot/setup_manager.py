@@ -194,7 +194,7 @@ class SetupManager:
 
         for path in match_config.botless_agents:
             try:
-                spec = importlib.util.spec_from_file_location(path)
+                spec = importlib.util.spec_from_file_location("botless_agent", path)
                 if spec:
                     m = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(m)
@@ -205,7 +205,7 @@ class SetupManager:
                 else:
                    self.logger.warning(f"No module found at {path}") 
             except Exception as e:
-                self.logger.warning(f"Failed to import botless agent at {path}. {type(e)} {e}")
+                self.logger.warning(f"Failed to import botless agent at {path}. {e}")
                 
         
         if match_config.extension_config is not None and match_config.extension_config.python_file_path is not None:
