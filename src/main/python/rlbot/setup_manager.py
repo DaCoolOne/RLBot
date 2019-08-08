@@ -200,7 +200,7 @@ class SetupManager:
                 if m.hasattr("agent"):
                     self.botless_agents.append(m.agent())
                 else:
-                    self.logg.warning(f"No agent class found in {path}")
+                    self.logger.warning(f"No agent class found in {path}")
             except:
                 self.logger.warning(f"Failed to import botless agent at {path}.")
         
