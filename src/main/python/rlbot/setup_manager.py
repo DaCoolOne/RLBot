@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import ParseResult as URL
-import importlib.util as impu
+from importlib import util as impu
 
 import psutil
 from rlbot import gateway_util
