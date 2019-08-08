@@ -8,6 +8,10 @@ class BotlessAgent():
     def connect(self, game_interface: GameInterface, config_paths = []):
         pass
     
+    # @Todo pass this a game tick packet.
+    def update():
+        pass
+    
     # Used to signal end of match
     def retire(self):
         pass
