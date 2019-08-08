@@ -197,12 +197,12 @@ class SetupManager:
                 spec = impu.spec_from_file_location(path)
                 m = impu.module_from_spec(spec)
                 spec.loader.exec_module(m)
-                if m.hasattr("agent"):
+                if hasattr(m, "agent"):
                     self.botless_agents.append(m.agent())
                 else:
                     self.logger.warning(f"No agent class found in {path}")
-            except:
-                self.logger.warning(f"Failed to import botless agent at {path}.")
+            except Exception as e:
+                self.logger.warning(f"{type(e)}: Failed to import botless agent at {path}.")
         
         if match_config.extension_config is not None and match_config.extension_config.python_file_path is not None:
             self.load_extension(match_config.extension_config.python_file_path)
