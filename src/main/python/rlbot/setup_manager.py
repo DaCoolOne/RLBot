@@ -6,12 +6,12 @@ import queue
 import subprocess
 import time
 import webbrowser
+import importlib.util
 from contextlib import contextmanager
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import ParseResult as URL
-from importlib import util as impu
 
 import psutil
 from rlbot import gateway_util
@@ -194,15 +194,19 @@ class SetupManager:
 
         for path in match_config.botless_agents:
             try:
-                spec = impu.spec_from_file_location(path)
-                m = impu.module_from_spec(spec)
-                spec.loader.exec_module(m)
-                if hasattr(m, "agent"):
-                    self.botless_agents.append(m.agent())
+                spec = importlib.util.spec_from_file_location(path)
+                if spec:
+                    m = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(m)
+                    if hasattr(m, "agent"):
+                        self.botless_agents.append(m.agent())
+                    else:
+                        self.logger.warning(f"No agent class found in {path}")
                 else:
-                    self.logger.warning(f"No agent class found in {path}")
+                   self.logger.warning(f"No module found at {path}") 
             except Exception as e:
-                self.logger.warning(f"{type(e)}: Failed to import botless agent at {path}.")
+                self.logger.warning(f"Failed to import botless agent at {path}. {type(e)} {e}")
+                
         
         if match_config.extension_config is not None and match_config.extension_config.python_file_path is not None:
             self.load_extension(match_config.extension_config.python_file_path)
