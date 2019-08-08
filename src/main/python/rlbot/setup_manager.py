@@ -288,7 +288,8 @@ class SetupManager:
         self.game_interface.start_match()
         
         # Load agents that aren't controlling a bot (We wait until here so that the game interface is loaded)
-        agent.connect(self.game_interface, self.configs) for agent in self.botless_agents
+        for agent in self.botless_agents:
+            agent.connect(self.game_interface, self.configs)
         
         time.sleep(0.5)  # Wait a moment. If we look too soon, we might see a valid packet from previous game.
         self.game_interface.wait_until_valid_packet()
