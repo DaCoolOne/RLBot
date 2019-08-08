@@ -322,6 +322,9 @@ class SetupManager:
                 # Print instructions again if a alphabet character was pressed but no command was found
                 elif command.isalpha():
                     self.logger.info(instructions)
+            # Update botless agents:
+            for agent in self.botless_agents:
+                agent.update()
 
             self.try_recieve_agent_metadata()
 
