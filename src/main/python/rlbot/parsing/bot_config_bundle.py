@@ -1,7 +1,7 @@
 import configparser
 import os
 
-from rlbot.agents.base_agent import BaseAgent, BOT_CONFIG_MODULE_HEADER, BOT_NAME_KEY, LOOKS_CONFIG_KEY, PYTHON_FILE_KEY
+from rlbot.agents.base_agent import BaseAgent, BOT_CONFIG_MODULE_HEADER, BOT_NAME_KEY, LOOKS_CONFIG_KEY, PYTHON_FILE_KEY, BOT_CONFIG_DETAILS_HEADER
 from rlbot.parsing.agent_config_parser import create_looks_configurations, PARTICIPANT_CONFIGURATION_HEADER, \
     PARTICIPANT_CONFIG_KEY
 from rlbot.parsing.custom_config import ConfigObject
