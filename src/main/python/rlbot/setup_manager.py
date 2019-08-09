@@ -176,12 +176,14 @@ class SetupManager:
         self.names = [bot.name for bot in match_config.player_configs]
         self.teams = [bot.team for bot in match_config.player_configs]
 
-        self.configs = [bot.config_path for bot in match_config.player_configs]
+        # self.configs = [bot.config_path for bot in match_config.player_configs]
         
         bundles = [bot_config_overrides[index] if index in bot_config_overrides else
                    get_bot_config_bundle(bot.config_path) if bot.config_path else None
                    for index, bot in enumerate(match_config.player_configs)]
 
+        self.configs = bundles
+        
         self.python_files = [bundle.python_file if bundle else None
                              for bundle in bundles]
 
