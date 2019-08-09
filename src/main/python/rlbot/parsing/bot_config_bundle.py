@@ -21,7 +21,7 @@ class BotConfigBundle:
         self.name = config_obj.get(BOT_CONFIG_MODULE_HEADER, BOT_NAME_KEY)
         self.looks_path = self.get_absolute_path(BOT_CONFIG_MODULE_HEADER, LOOKS_CONFIG_KEY)
         self.python_file = self.get_absolute_path(BOT_CONFIG_MODULE_HEADER, PYTHON_FILE_KEY)
-        self.details = config_obj.get_header(BOT_CONFIG_DETAILS_HEADER)
+        self.details = self.base_agent_config.get_header(BOT_CONFIG_DETAILS_HEADER)
 
     def get_absolute_path(self, header, key):
         path = self.base_agent_config.get(header, key)
